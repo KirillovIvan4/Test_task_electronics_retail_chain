@@ -16,9 +16,9 @@ class Product(models.Model):
 
 class NetworkNode(models.Model):
     NODE_TYPES = (
-        (0, 'Завод'),
-        (1, 'Розничная сеть'),
-        (2, 'Индивидуальный предприниматель'),
+        (0, 'Factory'),
+        (1, 'Retail chain'),
+        (2, 'Individual entrepreneur'),
     )
 
     name = models.CharField(max_length=255, verbose_name='Название')
@@ -46,12 +46,3 @@ class NetworkNode(models.Model):
 
     def __str__(self):
         return f"{self.get_node_type_display()}: {self.name}"
-
-
-
-class Employee(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    is_active = models.BooleanField(default=True, verbose_name='Активный сотрудник')
-
-    def __str__(self):
-        return self.user.username
