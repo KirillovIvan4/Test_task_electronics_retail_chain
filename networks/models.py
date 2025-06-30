@@ -13,6 +13,10 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name} {self.model}"
 
+    class Meta:
+        verbose_name = "Продукт"
+        verbose_name_plural = "Продукты"
+
 
 class NetworkNode(models.Model):
     NODE_TYPES = (
@@ -29,20 +33,18 @@ class NetworkNode(models.Model):
     street = models.CharField(max_length=100, verbose_name='Улица')
     house_number = models.CharField(max_length=20, verbose_name='Номер дома')
     product = models.ForeignKey(Product,on_delete=models.SET_NULL,
-                                 verbose_name='Поставщик', **NULLBLE)
+                                 verbose_name='Продукт', **NULLBLE)
     supplier = models.ForeignKey('self', on_delete=models.SET_NULL,
                                  verbose_name='Поставщик', related_name='children', **NULLBLE)
-    debt = models.DecimalField(max_digits=12, decimal_places=2, default=0.0,
+    debt = models.DecimalField(max_digits=12, decimal_places=2, default=0.00,
                                verbose_name='Задолженность перед поставщиком')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
 
-    @property
-    def hierarchy_level(self):
-        if self.node_type == 0:  # Factory
-            return 0
-        if not self.supplier:
-            return 1  # If no supplier but not a factory, assume it's level 1
-        return self.supplier.hierarchy_level + 1
+
 
     def __str__(self):
-        return f"{self.get_node_type_display()}: {self.name}"
+        return f"{self.name}"
+
+    class Meta:
+        verbose_name = "Звено сети"
+        verbose_name_plural = "Звенья сети"

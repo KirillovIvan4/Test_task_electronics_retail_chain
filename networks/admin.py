@@ -5,7 +5,7 @@ from networks.models import NetworkNode, Product
 
 @admin.register(NetworkNode)
 class NetworkNodeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'email', 'node_type')
+    list_display = ('id', 'name', 'email', 'node_type', 'supplier')
     list_filter = ('country', 'city')
     search_fields = ('country', 'city')
 
